@@ -11,23 +11,23 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // // Connect to database
-// const db = mysql.createConnection(
-//   {
-//     host: 'localhost',
-//     // MySQL username,
-//     user: 'root',
-//     // MySQL password
-//     password: 'password',
-//     database: 'company_db'
-//   },
-//   console.log(`Connected to the company_db database.`)
-// );
+const db = mysql.createConnection(
+  {
+    host: 'localhost',
+    // MySQL username,
+    user: 'root',
+    // MySQL password
+    password: 'password',
+    database: 'company_db'
+  },
+  console.log(`Connected to the company_db database.`)
+);
 
 const questions = [
         {
             type: 'list',
             name: 'choice',
-            message: "what woud you",
+            message: "What would you like to do?",
             choices:[
             `view all departments`, 
             `view all roles`,
@@ -73,7 +73,12 @@ const questions = [
       }
       
       function viewAllDepts() {
-        console.log('Perform action for viewing all departments');
+        db.query('SELECT * FROM department', function (err, results) {
+          if (err) {
+            console.log(err);
+          }
+          console.log(results);
+        });
       }
       
       function viewAllRoles() {
